@@ -1,0 +1,97 @@
+Given a non-empty array of integers, return the k most frequent elements.
+
+For example,
+Given [1,1,1,2,2,3] and k = 2, return [1,2].
+
+Note:
+You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+Subscribe to see which companies asked this question
+
+class Pair {
+    int num;
+    int count;
+    public Pair(int num, int count) {
+      this.num = num;
+      this.count = count;
+    }
+}
+
+public class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
+        for(int num:nums) {
+            if(!hashMap.containsKey(num)) {
+              hashMap.put(num, 1);
+            }
+            else {
+              hashMap.put(num, hashMap.get(num)+1);
+            }
+        }
+
+        PriorityQueue<Pair> queue = new PriorityQueue<Pair> (new Comparator<Pair>() {
+          public int compare( Pair a, Pair b) {
+            return a.count - b.count;
+          }
+        });
+
+        for (Map.Entry<Integer, Integer> entry:hashMap.entrySet()) {
+          Pair temp = new Pair(entry.getKey(), entry.getValue());
+          queue.offer(temp);
+          if(queue.size() > k)
+            queue.poll();
+        }
+
+        List<Integer> result = new ArrayList<Integer>();
+            while(queue.size() > 0) {
+              result.add(queue.poll().num);
+            }
+        return result;
+
+    }
+}
+
+=====================================================================================
+public class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
+        for(int num:nums) {
+            if(!hashMap.containsKey(num)) {
+              hashMap.put(num, 1);
+            }
+            else {
+              hashMap.put(num, hashMap.get(num)+1);
+            }
+        }
+        int max = 0;
+        for(Map.Entry<Integer, Integer> entry:hashMap.entrySet()) {
+          if(entry.getValue() > max)
+            max = entry.getValue();
+        }
+        int num = 0;
+        int count = 0;
+        ArrayList<Integer>[] busket = (ArrayList<Integer>[]) new  ArrayList[max+1];
+        for(int i = 1; i <= max; i++){
+          busket[i] = new ArrayList<Integer>();
+        }
+        for(Map.Entry<Integer, Integer> entry:hashMap.entrySet()) {
+          num = entry.getKey();
+          count = entry.getValue();
+          busket[count].add(num);
+        }
+
+        List<Integer> result = new ArrayList<Integer>();
+
+        for(int i = max; i >= 1; i--) {
+          if(busket[i].size() > 0) {
+            for(int no:busket[i]) {
+              result.add(no);
+            }
+          }
+          if(result.size() == k){
+              break;
+          }
+        }
+    return result;
+    }
+}
