@@ -1,0 +1,99 @@
+Given two strings s and t, write a function to determine if t is an anagram of s.
+
+For example,
+s = "anagram", t = "nagaram", return true.
+s = "rat", t = "car", return false.
+
+Note:
+You may assume the string contains only lowercase alphabets.
+
+Follow up:
+What if the inputs contain unicode characters? How would you adapt your solution to such case?
+
+public class Solution {
+    public boolean isAnagram(String s, String t) {
+        int a = 0;
+        int b = 0;
+        char string1[] = s.toCharArray();
+        char string2[] = t.toCharArray();
+        HashMap<Character, Integer> Map1 = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> Map2 = new HashMap<Character, Integer>();
+        if(string1.length != string2.length) {
+            return false;
+        }
+
+        for(int i = 0; i < string1.length; i++) {
+          if (Map1.get(string1[i])==null ) {
+
+              Map1.put(string1[i], 1);
+
+          } else  {
+
+              Map1.put(string1[i], Map1.get(string1[i]) + 1);
+
+          } if (Map2.get(string2[i]) ==null) {
+
+              Map2.put(string2[i], 1);
+
+          } else  {
+
+              Map2.put(string2[i], Map2.get(string2[i]) + 1);
+
+          }
+      }
+
+      for(Map.Entry<Character, Integer> entry:Map1.entrySet()) {
+          a = entry.getValue();
+          if(Map2.get(entry.getKey()) == null) {
+                return false;
+
+          } b = Map2.get(entry.getKey());
+        if(a != b) {
+            return false;
+        }
+      }
+
+      return true;
+
+    }
+}
+===========================================================================
+public class Solution {
+    public boolean isAnagram(String s, String t) {
+        char[] string1 = s.toCharArray();
+        char[] string2 = t.toCharArray();
+        Arrays.sort(string1);
+        Arrays.sort(string2);
+        s = new String(string1);
+        t = new String(string2);
+
+        if(s.equals(t)){
+          return true;
+        }
+        return false;
+    }
+}
+
+==============================================================
+
+public class Solution {
+  public boolean isAnagram(String s, String t) {
+    if (s.length() != t.length()) 
+      return false;
+
+    char[] sChar = s.toCharArray();
+    char[] tChar = t.toCharArray();
+
+    int[] temp = new int[128]; //ASCII nums
+    for (char c : sChar) {
+      temp[c]++;
+    }
+    for (char c : tChar) {
+      temp[c]--;
+      if (temp[c] < 0)
+        return false;
+     }
+
+     return true;
+  }
+}
