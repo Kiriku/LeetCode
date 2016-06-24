@@ -1,0 +1,59 @@
+//Given a binary tree, return the preorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [1,2,3].
+
+ /**
+  * Definition for a binary tree node.
+  * public class TreeNode {
+  *     int val;
+  *     TreeNode left;
+  *     TreeNode right;
+  *     TreeNode(int x) { val = x; }
+  * }
+  */
+ public class Solution {
+     public List<Integer> preorderTraversal(TreeNode root) {
+       List<Integer> result = new ArrayList<Integer>();
+         if (root == null) {
+         return result;
+       }
+       preorder(root, result);
+       return result;
+     }
+     private void preorder(TreeNode node, List<Integer> array) {
+         if (node != null) {
+           array.add(node.val);
+           preorder(node.left, array);
+           preorder(node.right, array);
+         }
+     }
+ }
+
+ ====================================================================
+ public class Solution {
+   public List<Integer> preorderTraversal(TreeNode root) {
+     List<Integer> result = new ArrayList<Integer>();
+       if (root == null) {
+       return result;
+     }
+     TreeNode node = null;
+     LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+     stack.push(root);
+     while(!stack.isEmpty()) {
+       node = stack.pop();
+       if(node != null) {
+         result.add(node.val);
+         stack.push(node.right);
+         stack.push(node.left);
+       }
+     }
+     return result;
+   }
+ }
