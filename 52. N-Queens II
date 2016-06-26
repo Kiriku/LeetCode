@@ -1,0 +1,40 @@
+Follow up for N-Queens problem.
+
+Now, instead outputting board configurations, return the total number of distinct solutions.
+
+public class Solution {
+    int count = 0;
+    public int totalNQueens(int n) {
+        int[] x = new int[n];
+        queen(x, n, 0);
+        return count;
+    }
+    public void queen (int[] x, int n, int row) {
+      for (int i = 0; i < n; i++) {
+        if (check(x,n,row,i)) {
+          x[row] = i;
+          if( row == n-1) {
+            count++;
+            x[row] = 0;
+            return;
+          }
+          queen(x, n, row+1);
+          x[row] = 0;
+        }
+      }
+    }
+    /**
+     * @param x 数组解
+     * @param n 棋盘长宽
+     * @param row 当前放置行
+     * @param x[i] 当前放置列
+     * @return
+     */
+    boolean check(int[] x,int n,int row, int col){
+        for(int i = 0; i < row; i++){
+            if(x[i] == col || x[i] + i == col + row || x[i] - i == col - row)
+                return false;
+        }
+        return true;
+    }
+}
