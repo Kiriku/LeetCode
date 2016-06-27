@@ -1,0 +1,77 @@
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
+prove that at least one duplicate number must exist.
+Assume that there is only one duplicate number, find the duplicate one.
+
+Note:
+You must not modify the array (assume the array is read only).
+You must use only constant, O(1) extra space.
+Your runtime complexity should be less than O(n2).
+There is only one duplicate number in the array, but it could be repeated more than once.
+
+
+o(n^2)
+public class Solution {
+    public int findDuplicate(int[] nums) {
+        int temp = 0;
+        for (int i = 0; i < nums.length; i++) {
+          temp = nums[i];
+          for (int j = 0; j < nums.length; j++) {
+            if (temp == nums[j] && (i != j)) {
+                return temp;
+            }
+          }
+        }
+        return temp;
+    }
+}
+
+Your runtime beats 1.11% of javasubmissions......lol
+========================================================================
+o(n)
+public class Solution {
+    public int findDuplicate(int[] nums) {
+      int fastPoint = nums.length;
+      int slowPoint = nums.length;
+      do {
+        fastPoint = nums[nums[fastPoint - 1] - 1];
+        slowPoint = nums[slowPoint - 1];
+      } while (fastPoint != slowPoint);
+
+      slowPoint = nums.length;
+
+      while (fastPoint != slowPoint) {
+        slowPoint = nums[slowPoint - 1];
+        fastPoint = nums[fastPoint - 1];
+      }
+      return  fastPoint;
+    }
+}
+========================================================================
+public class Solution {
+    public static int findDuplicate(int[] nums) {
+        //using Tortoise & Hair algorithm by Donald Knuth to find cycle in a sequence.
+        //This algorithm also called Floyd's cycele detection algorithm
+        int n = nums.length;
+        int tortoise = n;
+        int hair = n;
+
+       do{
+            tortoise = nums[tortoise-1];
+            hair = nums[nums[hair-1]-1];
+        } while(hair != tortoise);
+
+        //find the starting point of the cycle
+        //int mu = 0;
+        tortoise = n;
+        while(hair != tortoise){
+            tortoise = nums[tortoise-1];
+            hair = nums[hair-1];
+            //mu++;
+        }
+
+        return tortoise;
+    }
+}
+================================================================
+
+鸽巢原理－> 二分法 o(nlogn)
